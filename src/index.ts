@@ -10,7 +10,7 @@ const main = async () => {
     entities: [Post],
   });
 
-  orm.em.create(Post, {title: 'my first post'})
+  const post = orm.em.create(Post, {title: 'my first post'})
 };
 
 main();
