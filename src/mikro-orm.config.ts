@@ -2,6 +2,7 @@ import { MikroORM } from '@mikro-orm/core';
 import { __prod__ } from './constants';
 import { Post } from './entities/Post';
 import path from 'path';
+import { User } from './entities/User';
 
 console.log('dirname', __dirname);
 
@@ -16,5 +17,5 @@ export default {
   password: 'admin312',
   type: 'postgresql',
   debug: !__prod__,
-  entities: [Post],
+  entities: [Post, User],
 } as Parameters<typeof MikroORM.init>[0];
