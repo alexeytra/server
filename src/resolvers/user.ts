@@ -11,6 +11,7 @@ import {
   Resolver,
 } from 'type-graphql';
 import argon2 from 'argon2';
+import { COOKIE_NAME } from '../constants';
 
 @InputType()
 class UsernamePasswordInput {
@@ -46,7 +47,7 @@ export class UserResolver {
       return null;
     }
 
-    const user = await em.findOne(User, {id: req.session.userId});
+    const user = await em.findOne(User, { id: req.session.userId });
     return user;
   }
 
@@ -129,5 +130,20 @@ export class UserResolver {
     return {
       user,
     };
+  }
+
+  @Mutation(() => Boolean)
+  logout(@Ctx() { req, res }: MyContext) {
+    return new Promise((_res) =>
+      req.session.destroy((err) => {
+        res.clearCookie(COOKIE_NAME);
+        if (err) {
+          _res(false);
+          return;
+        }
+
+        _res(true);
+      })
+    );
   }
 }
